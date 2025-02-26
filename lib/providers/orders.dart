@@ -10,17 +10,17 @@ class OrderItem {
   final DateTime dateTime;
 
   OrderItem({
-    @required this.id,
-    @required this.total,
-    @required this.cartItems,
-    @required this.dateTime,
+    required this.id,
+    required this.total,
+    required this.cartItems,
+    required this.dateTime,
   });
 }
 
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
-  final String authToken;
-  final String userId;
+  final String? authToken;
+  final String? userId;
 
   Orders(this.authToken, this.userId, this._orders);
 

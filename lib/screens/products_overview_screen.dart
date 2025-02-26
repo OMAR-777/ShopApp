@@ -6,7 +6,7 @@ import 'package:flutter_complete_guide/widgets/app_drawer.dart';
 
 import 'package:flutter_complete_guide/widgets/products_grid.dart';
 
-import 'package:flutter_complete_guide/widgets/badge.dart';
+import 'package:flutter_complete_guide/widgets/icon_badge.dart';
 import 'package:provider/provider.dart';
 
 enum FilterOptions {
@@ -21,7 +21,7 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
-  var _isLoading = false;
+  var _isLoading = true;
 
   @override
   void initState() {
@@ -75,8 +75,8 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             ],
           ),
           Consumer<Cart>(
-            builder: (_, cart, ch) => Badge(
-              child: ch,
+            builder: (_, cart, ch) => IconBadge(
+              child: ch!,
               value: cart.itemCount.toString(),
             ),
             child: IconButton(

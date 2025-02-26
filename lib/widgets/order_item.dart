@@ -63,10 +63,10 @@ class _OrderItemState extends State<OrderItem> {
 
 class OrderedProductItem extends StatelessWidget {
   const OrderedProductItem({
-    Key key,
-    this.title,
-    this.price,
-    this.quantity,
+    Key? key,
+    required this.title,
+    required this.price,
+    required this.quantity,
   }) : super(key: key);
 
   final String title;

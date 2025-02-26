@@ -7,7 +7,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context).settings.arguments as String;
+    final productId = ModalRoute.of(context)!.settings.arguments as String;
     final loadedProduct = Provider.of<Products>(
       context,
       listen: false,
@@ -28,6 +28,7 @@ class ProductDetailsScreen extends StatelessWidget {
               title: Text(
                 loadedProduct.title,
                 style: TextStyle(
+                  color: Colors.white,
                   shadows: [
                     Shadow(
                       color: Colors.black,
@@ -46,6 +47,12 @@ class ProductDetailsScreen extends StatelessWidget {
                 tag: loadedProduct.id,
                 child: Image.network(
                   loadedProduct.imageUrl,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/images/product-placeholder.png',
+                      fit: BoxFit.cover,
+                    );
+                  },
                   fit: BoxFit.cover,
                 ),
               ),

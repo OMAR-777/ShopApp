@@ -16,7 +16,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editedProduct = Product(
-    id: null,
+    id: '',
     title: '',
     description: '',
     price: 0,
@@ -43,11 +43,11 @@ class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final prodouctId = ModalRoute.of(context).settings.arguments as String;
+      final prodouctId = ModalRoute.of(context)?.settings.arguments;
 
       if (prodouctId != null) {
-        _editedProduct =
-            Provider.of<Products>(context, listen: false).findById(prodouctId);
+        _editedProduct = Provider.of<Products>(context, listen: false)
+            .findById(prodouctId as String);
         _initValues = {
           'title': _editedProduct.title,
           'description': _editedProduct.description,
@@ -86,17 +86,17 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   Future<void> _saveForm() async {
-    final isValid = _form.currentState.validate();
-    if (!isValid) {
+    final isValid = _form.currentState?.validate();
+    if (isValid == null || !isValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState?.save();
 
     setState(() {
       _isLoading = true;
     });
 
-    if (_editedProduct.id != null) {
+    if (_editedProduct.id.isNotEmpty) {
       await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
     } else {
@@ -110,7 +110,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
             title: Text('An error has occurred!'),
             content: Text('Something went wrong.'),
             actions: [
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.of(ctx).pop();
                 },
@@ -162,14 +162,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       ),
                       textInputAction: TextInputAction.next,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please provide a value.';
                         }
                         return null;
                       },
                       onSaved: (value) {
                         _editedProduct = Product(
-                          title: value,
+                          title: value!,
                           description: _editedProduct.description,
                           price: _editedProduct.price,
                           imageUrl: _editedProduct.imageUrl,
@@ -186,7 +186,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       textInputAction: TextInputAction.next,
                       keyboardType: TextInputType.number,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter a price.';
                         }
                         if (double.tryParse(value) == null) {
@@ -201,7 +201,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         _editedProduct = Product(
                           title: _editedProduct.title,
                           description: _editedProduct.description,
-                          price: double.parse(value),
+                          price: double.parse(value!),
                           imageUrl: _editedProduct.imageUrl,
                           id: _editedProduct.id,
                           isFavorite: _editedProduct.isFavorite,
@@ -216,7 +216,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       maxLines: 3,
                       keyboardType: TextInputType.multiline,
                       validator: (value) {
-                        if (value.isEmpty) {
+                        if (value!.isEmpty) {
                           return 'Please enter a description.';
                         }
                         if (value.length < 10) {
@@ -227,7 +227,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                       onSaved: (value) {
                         _editedProduct = Product(
                           title: _editedProduct.title,
-                          description: value,
+                          description: value!,
                           price: _editedProduct.price,
                           imageUrl: _editedProduct.imageUrl,
                           id: _editedProduct.id,
@@ -271,7 +271,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               _saveForm();
                             },
                             validator: (value) {
-                              if (value.isEmpty) {
+                              if (value!.isEmpty) {
                                 return 'Please enter an image URL.';
                               }
                               if (!value.startsWith('http') &&
@@ -290,7 +290,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                 title: _editedProduct.title,
                                 description: _editedProduct.description,
                                 price: _editedProduct.price,
-                                imageUrl: value,
+                                imageUrl: value!,
                                 id: _editedProduct.id,
                                 isFavorite: _editedProduct.isFavorite,
                               );

@@ -7,25 +7,25 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  DateTime _expiryDate;
-  String _userId;
-  Timer _authTimer;
+  String? _token;
+  DateTime? _expiryDate;
+  String? _userId;
+  Timer? _authTimer;
 
   bool get isAuth {
     return token != null;
   }
 
-  String get token {
+  String? get token {
     if (_expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now()) &&
+        _expiryDate!.isAfter(DateTime.now()) &&
         _token != null) {
       return _token;
     }
     return null;
   }
 
-  String get userId {
+  String? get userId {
     return _userId;
   }
 
@@ -63,7 +63,7 @@ class Auth with ChangeNotifier {
       final userData = json.encode({
         'token': _token,
         'userId': _userId,
-        'expiryDate': _expiryDate.toIso8601String(),
+        'expiryDate': _expiryDate!.toIso8601String(),
       });
 
       prefs.setString('userData', userData);
@@ -85,16 +85,16 @@ class Auth with ChangeNotifier {
     if (!prefs.containsKey('userData')) {
       return false;
     }
-    final extractedData =
-        json.decode(prefs.getString('userData')) as Map<String, Object>;
-    final expiryDate = DateTime.parse(extractedData['expiryDate']);
+    final extractedData = json.decode(prefs.getString('userData')!);
+
+    final expiryDate = DateTime.parse(extractedData['expiryDate'] as String);
 
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
     }
 
-    _token = extractedData['token'];
-    _userId = extractedData['userId'];
+    _token = extractedData['token'] as String;
+    _userId = extractedData['userId'] as String;
     _expiryDate = expiryDate;
 
     print('Hello!!');
@@ -109,7 +109,7 @@ class Auth with ChangeNotifier {
     _userId = null;
     _expiryDate = null;
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
       _authTimer = null;
     }
     notifyListeners();
@@ -118,10 +118,10 @@ class Auth with ChangeNotifier {
   }
 
   void _autoLogout() {
-    if (_authTimer != null) {
-      _authTimer.cancel();
-    }
-    var timeToExpire = _expiryDate.difference(DateTime.now()).inSeconds;
+    //Null-aware operator
+    _authTimer?.cancel();
+    //Null assertion operater
+    var timeToExpire = _expiryDate!.difference(DateTime.now()).inSeconds;
     print('time to expire:  $timeToExpire');
     _authTimer = Timer(Duration(seconds: timeToExpire), logout);
   }

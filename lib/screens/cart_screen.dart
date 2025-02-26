@@ -37,7 +37,7 @@ class CartScreen extends StatelessWidget {
                         color: Theme.of(context)
                             .primaryTextTheme
                             .titleMedium
-                            .color,
+                            ?.color,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
@@ -70,8 +70,8 @@ class CartScreen extends StatelessWidget {
 
 class OrderButton extends StatefulWidget {
   const OrderButton({
-    Key key,
-    @required this.cartData,
+    Key? key,
+    required this.cartData,
   }) : super(key: key);
 
   final Cart cartData;
@@ -84,7 +84,7 @@ class _OrderButtonState extends State<OrderButton> {
   var _isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: (widget.cartData.totalPrice <= 0 || _isLoading)
           ? null
           : () async {
@@ -98,7 +98,6 @@ class _OrderButtonState extends State<OrderButton> {
               _isLoading = false;
             },
       child: _isLoading ? CircularProgressIndicator() : Text('ORDER NOW'),
-      textColor: Theme.of(context).primaryColor,
     );
   }
 }

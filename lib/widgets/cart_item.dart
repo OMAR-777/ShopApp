@@ -11,11 +11,11 @@ class CartItem extends StatelessWidget {
   final double price;
 
   const CartItem({
-    this.id,
-    this.productId,
-    this.title,
-    this.quantity,
-    this.price,
+    required this.id,
+    required this.productId,
+    required this.title,
+    required this.quantity,
+    required this.price,
   });
 
   @override
@@ -24,7 +24,7 @@ class CartItem extends StatelessWidget {
       direction: DismissDirection.endToStart,
       key: ValueKey(id),
       background: Container(
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.error,
         child: Icon(
           Icons.delete,
           color: Colors.white,

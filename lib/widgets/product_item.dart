@@ -29,10 +29,14 @@ class ProductItem extends StatelessWidget {
             tag: product.id,
             child: FadeInImage(
               placeholder: AssetImage('assets/images/product-placeholder.png'),
-              image: NetworkImage(
-                product.imageUrl,
-              ),
+              image: NetworkImage(product.imageUrl),
               fit: BoxFit.cover,
+              imageErrorBuilder: (context, error, stackTrace) {
+                return Image.asset(
+                  'assets/images/product-placeholder.png',
+                  fit: BoxFit.cover,
+                );
+              },
             ),
           ),
         ),
@@ -47,9 +51,9 @@ class ProductItem extends StatelessWidget {
                       : Icons.favorite_border),
                   onPressed: () {
                     product.toggleFavoriteStatus(
-                        authData.token, authData.userId);
+                        authData.token!, authData.userId!);
                   },
-                  color: Theme.of(context).accentColor,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
               title: Text(
@@ -62,19 +66,20 @@ class ProductItem extends StatelessWidget {
                   cart.addItem(product.id, product.price, product.title);
 
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('item has been added to the cart'),
-                      duration: Duration(seconds: 2),
-                      action: SnackBarAction(
-                        label: 'UNDO',
-                        onPressed: () {
-                          cart.removeSingleItem(product.id);
-                        },
+                      SnackBar(
+                        content: Text('item has been added to the cart'),
+                        action: SnackBarAction(
+                          label: 'UNDO',
+                          onPressed: () {
+                            cart.removeSingleItem(product.id);
+                          },
+                        ),
                       ),
-                    ),
-                  );
+                      snackBarAnimationStyle: AnimationStyle(
+                          duration: Duration(seconds: 2),
+                          curve: Curves.easeInOut));
                 },
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
             ),
             Container(

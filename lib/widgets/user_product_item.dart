@@ -10,10 +10,10 @@ class UserProductItem extends StatelessWidget {
   final String imageUrl;
 
   const UserProductItem({
-    Key key,
-    this.id,
-    this.title,
-    this.imageUrl,
+    Key? key,
+    required this.id,
+    required this.title,
+    required this.imageUrl,
   }) : super(key: key);
 
   @override
@@ -45,7 +45,7 @@ class UserProductItem extends StatelessWidget {
                   await Provider.of<Products>(context, listen: false)
                       .deleteProduct(id);
                 } catch (err) {
-                  scaffold.showSnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(
                         'Deleting failed!',
@@ -55,7 +55,7 @@ class UserProductItem extends StatelessWidget {
                   );
                 }
               },
-              color: Theme.of(context).errorColor,
+              color: Theme.of(context).colorScheme.error,
             ),
           ],
         ),

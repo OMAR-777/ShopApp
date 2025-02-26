@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Auth(),
         ),
         ChangeNotifierProxyProvider<Auth, Products>(
+          create: (ctx) => Products("", "", []),
           update: (ctx, auth, previousProducts) => Products(
             auth.token,
             auth.userId,
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => Cart(),
         ),
         ChangeNotifierProxyProvider<Auth, Orders>(
+          create: (ctx) => Orders("", "", []),
           update: (ctx, auth, previousOrders) => Orders(
             auth.token,
             auth.userId,
@@ -52,7 +54,11 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               brightness: Brightness.light,
               primarySwatch: Colors.teal,
-              accentColor: Colors.redAccent,
+              hintColor: Colors.redAccent,
+              buttonTheme: ButtonThemeData(
+                buttonColor: Colors.teal,
+                textTheme: ButtonTextTheme.normal,
+              ),
               fontFamily: 'Lato',
               pageTransitionsTheme: PageTransitionsTheme(
                 builders: {
