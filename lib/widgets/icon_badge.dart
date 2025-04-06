@@ -36,8 +36,9 @@ class IconBadge extends StatelessWidget {
               value,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 10,
-              ),
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w700),
             ),
           ),
         )

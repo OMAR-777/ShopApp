@@ -1,9 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_complete_guide/providers/cart.dart' show Cart;
 import 'package:flutter_complete_guide/providers/orders.dart' as ord;
-import 'package:flutter_complete_guide/widgets/cart_item.dart';
 import 'package:intl/intl.dart';
 
 class OrderItem extends StatefulWidget {
@@ -107,10 +104,3 @@ class OrderedProductItem extends StatelessWidget {
     );
   }
 }
-
-// CartItem(
-//                           id: prod.id,
-//                           title: prod.title,
-//                           quantity: prod.quantity,
-//                           price: prod.price))
-//                       .toList())

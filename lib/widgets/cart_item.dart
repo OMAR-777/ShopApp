@@ -74,12 +74,16 @@ class CartItem extends StatelessWidget {
                           .findById(productId)
                           .imageUrl,
                       width: 100,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        'assets/images/product-placeholder.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   )
                 : SizedBox(),
             title: Text(title),
-            subtitle: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Price: \$${price}'),
                 Text('Total: \$${price * quantity}'),
